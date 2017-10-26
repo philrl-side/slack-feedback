@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const Router = require('express-promise-router')
+const bcrypt = require('bcrypt-nodejs')
 const users = require('../models/users')
 const tokens = require('../models/tokens')
 
@@ -18,15 +19,18 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  const { usernme, password } = req.body;
+  const { username, password } = req.body;
   const { rows } = await users.login(username, password);
-  if (rows !== undefined) {
-    const { user_id } = rows[0];
+  const login = rows[0]
+  if (login !== undefined && bcrypt.compareSync(password, login.password)) {
+    user_id = login.id
     const buf = Buffer.alloc(32);
     const token = crypto.randomFillSync(buf).toString('hex');
     await tokens.set_token(token, user_id);
     res.json({
       login: 'successful',
+      userid: user_id,
+      username: username,
       token: token
     });
   } else {
