@@ -6,6 +6,9 @@
     "dev-start": "PORT=3001 supervisor ./bin/www",
     "start": "node ./bin/www"
   },
+  "engines": {
+    "node": "8.8.0"
+  },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.18.2",
