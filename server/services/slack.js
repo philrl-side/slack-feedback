@@ -7,7 +7,7 @@ module.exports = {
   post_to_slack: (text) => {
     const options = {
       method: 'POST',
-      uri: 'http://localhost:3001/api/v1/loop',
+      uri: 'https://hooks.slack.com/services/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',
       body: {
           text: text
       },
